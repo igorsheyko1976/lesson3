@@ -22,6 +22,9 @@ target_y = random.randint(0, SCREEN_HEIGHT - target_height)
 
 color = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
 
+font = pygame.font.Font(None, 36)
+score = 0
+
 running = True
 
 while running:
@@ -29,13 +32,22 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             if target_x < mouse_x < target_x + target_width and target_y < mouse_y < target_y + target_height:
+                score += 1
                 target_x = random.randint(0, SCREEN_WIDTH - target_width)
                 target_y = random.randint(0, SCREEN_HEIGHT - target_height)
+                color = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
 
     screen.blit(target_img, (target_x, target_y))
+
+    score_text = font.render(f"Счет: {score}", True, (255, 255, 255))
+    screen.blit(score_text, (10, 10))
+
     pygame.display.update()
 
 pygame.quit()
